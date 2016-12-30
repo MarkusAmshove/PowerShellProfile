@@ -41,6 +41,9 @@ try {
     Install-Module -AllowClobber -Scope:$Scope -Name @((Get-Module Profile -ListAvailable).RequiredModules)
     Set-PSRepository -Name PSGallery -InstallationPolicy $Gallery.InstallationPolicy
 
+    if(!Test-Path ~\Documents\WindowsPowerShell\Scripts) {
+        mkdir ~\Documents\WindowsPowerShell\Scripts
+    }
 } finally {
     Pop-Location
 }
