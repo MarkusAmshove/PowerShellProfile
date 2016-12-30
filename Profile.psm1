@@ -5,6 +5,8 @@ if($Host.Name -ne "ConsoleHost") {
 }
 # Only configure PSReadLine if it's already running
 elseif(Get-Module PSReadline) {
+    Set-PSReadlineOption -EditMode Emacs
+
     Set-PSReadlineKeyHandler Ctrl+Shift+C CaptureScreen
     Set-PSReadlineKeyHandler Ctrl+Shift+R ForwardSearchHistory
     Set-PSReadlineKeyHandler Ctrl+R ReverseSearchHistory
