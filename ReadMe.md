@@ -10,8 +10,8 @@ Feel free to ask for explanation of anything you want to know.
 
 ### This module is not published to the PowerShell gallery
 
-If you really want a copy of it, you can use the [Install-Module.ps1](https://github.com/MarkusAmshove/PowerShellProfile/blob/master/Install-Module.ps1) to install it on your box:
+If you really want a copy of it, you can use the [Install-Module.ps1](https://github.com/MarkusAmshove/Profile/blob/master/Install-Module.ps1) to install it on your box:
 
 ```posh
-iex (irm https://github.com/MarkusAmshove/PowerShellProfile/raw/master/Install-Module.ps1)
+iex (irm https://github.com/MarkusAmshove/Profile/raw/master/Install-Module.ps1)
 ```
