@@ -13,6 +13,7 @@ $Env:PSModulePath += ";$PSHome\Modules"
 Import-Module Microsoft.PowerShell.Management,
               Microsoft.PowerShell.Security,
               Microsoft.PowerShell.Utility,
+              ZLocation,
               Environment,
               Configuration,
               PSGit,
@@ -56,11 +57,12 @@ function Reset-Module {
     Microsoft.PowerShell.Core\Import-Module $ModuleName -force -pass | Format-Table Name, Version, Path -Auto
 }
 
-# I have a hard time remembering to use ZLocation. This helped...
-Set-Alias cd Set-ZLocation -Option AllScope
-
 Trace-Message "Profile Finished!" -KillTimer
 Remove-Variable TraceVerboseTimer
+
+# Custom Aliases
+Set-Alias l ls
+Set-Alias which Get-Command
 
 ## Relax the code signing restriction so we can actually get work done
 try { Set-ExecutionPolicy RemoteSigned Process } catch [PlatformNotSupportedException] {}
