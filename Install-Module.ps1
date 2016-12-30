@@ -25,16 +25,16 @@ try {
     $ProgressPreference = "SilentlyContinue"
     Invoke-WebRequest https://github.com/MarkusAmshove/Profile/archive/xplat.zip -OutFile Profile-master.zip
     $ProgressPreference = "Continue"
-    Expand-Archive Profile-master.zip .
-    $null = mkdir Profile-master\old
+    Expand-Archive Profile-xplat.zip .
+    $null = mkdir Profile-xplat\old
 
     if(Test-Path Profile) {
-        Move-Item Profile\* Profile-master\old
+        Move-Item Profile\* Profile-xplat\old
         Remove-Item Profile
     }
 
-    Rename-Item Profile-master Profile
-    Remove-Item Profile-master.zip
+    Rename-Item Profile-xplat Profile
+    Remove-Item Profile-xplat.zip
 
     Move-Item Profile\profile.ps1 ~\Documents\WindowsPowerShell\ -Force:$Force -ErrorAction SilentlyContinue -ErrorVariable MoveFailed
     if($MoveFailed) {
