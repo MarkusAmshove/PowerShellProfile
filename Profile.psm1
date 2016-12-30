@@ -117,7 +117,7 @@ function Set-HostColor {
         $PowerLinePrompt.Lines[-1].Columns[-1].Blocks.Add( @{ text = { Get-GitStatusPowerline } } )
 
         Set-GitPromptSettings -SeparatorText '' -BeforeText '' -BeforeChangesText '' -AfterChangesText '' -AfterNoChangesText '' `
-                              -BranchText "§ " -BranchForeground White -BranchBackground Cyan `
+                              -BranchText "§ " -BranchForeground White -BranchBackground DarkCyan `
                               -BehindByText '▼' -BehindByForeground White -BehindByBackground DarkCyan `
                               -AheadByText '▲' -AheadByForeground White -AheadByBackground DarkCyan `
                               -StagedChangesForeground White -StagedChangesBackground DarkBlue `
