@@ -23,7 +23,7 @@ try {
     }
 
     $ProgressPreference = "SilentlyContinue"
-    Invoke-WebRequest https://github.com/MarkusAmshove/Profile/archive/master.zip -OutFile Profile-master.zip
+    Invoke-WebRequest https://github.com/MarkusAmshove/Profile/archive/xplat.zip -OutFile Profile-master.zip
     $ProgressPreference = "Continue"
     Expand-Archive Profile-master.zip .
     $null = mkdir Profile-master\old
