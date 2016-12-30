@@ -21,6 +21,9 @@ Import-Module Microsoft.PowerShell.Management,
               Profile,
               DefaultParameter -Verbose:$false
 
+# Load scripts from Scriptdir
+@('GitCompletion.ps1') | % { . $_ }
+
 # For now, CORE edition is always verbose, because I can't test for KeyState
 if("Core" -eq $PSVersionTable.PSEdition) {
     $VerbosePreference = "Continue"
