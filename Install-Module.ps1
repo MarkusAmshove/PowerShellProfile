@@ -5,7 +5,12 @@ param(
     $Scope = "CurrentUser"
 )
 
-mkdir ~\Documents\WindowsPowerShell\Modules -force | convert-path | Push-location
+if ($IsWindows) {
+    mkdir ~\Documents\WindowsPowerShell\Modules -force | convert-path | Push-location
+}
+else {
+    mkdir -p ~\Documents\WindowsPowerShell\Modules | convert-path | Push-location
+}
 
 try {
     $ErrorActionPreference = "Stop"
