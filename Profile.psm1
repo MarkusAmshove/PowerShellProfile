@@ -146,10 +146,6 @@ function Update-ToolPath {
     ## MSBuild is now in 'C:\Program Files (x86)\MSBuild\{version}'
     $folders += Set-AliasToFirst -Alias "msbuild" -Path 'C:\Program Files (x86)\MSBuild\*\Bin\MsBuild.exe' -Description "Visual Studio's MsBuild" -Force -Passthru
     $folders += Set-AliasToFirst -Alias "merge" -Path "C:\Program*Files*\Perforce\p4merge.exe","C:\Program*Files*\DevTools\Perforce\p4merge.exe" -Description "Perforce" -Force -Passthru
-    $folders += Set-AliasToFirst -Alias "tf" -Path "C:\Program*Files*\*Visual?Studio*\Common7\IDE\TF.exe", "C:\Program*Files*\DevTools\*Visual?Studio*\Common7\IDE\TF.exe" -Description "Visual Studio" -Force -Passthru
-    # Side note: I search "D:" here, but you could put any USB drive letter ...
-    $folders += Set-AliasToFirst -Alias "Python","Python2","py2" -Path "C:\Python2*\python.exe", "D:\Python2*\python.exe" -Description "Python 2.x" -Force -Passthru
-    $folders += Set-AliasToFirst -Alias "Python3","py3" -Path "${Env:ProgramFiles}\Python3*\python.exe", "C:\Python3*\python.exe", "C:\Anaconda3\python.exe", "D:\Python3*\python.exe" -Description "Python 3.x" -Force -Passthru
     Set-AliasToFirst -Alias "iis","iisexpress" -Path 'C:\Progra*\IIS*\IISExpress.exe' -Description "Personal Profile Alias"
     Trace-Message "Development aliases set"
 
