@@ -19,6 +19,7 @@ elseif(Get-Module PSReadline) {
 
     Set-PSReadlineKeyHandler Ctrl+K KillLine
     Set-PSReadlineKeyHandler Ctrl+I Yank
+    Set-PSReadlineKeyHandler Ctrl+W BackwardKillWord
     Trace-Message "PSReadLine fixed"
 }
 
