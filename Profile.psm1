@@ -99,7 +99,7 @@ function Set-HostColor {
     Set-PSReadlineOption -TokenKind None      -ForegroundColor $ForegroundColor -BackgroundColor $BackgroundColor
     Set-PSReadlineOption -TokenKind Comment   -ForegroundColor "DarkGray" -BackgroundColor $BackgroundColor
 
-    $PowerlineBackground = "Cyan"
+    $PowerlineBackground = "DarkBlue"
     if(Test-Elevation) {
         $PowerlineBackground = "DarkRed"
     }
