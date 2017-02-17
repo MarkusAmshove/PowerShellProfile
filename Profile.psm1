@@ -43,9 +43,9 @@ function Set-HostColor {
 
     ## In the PowerShell Console, we can only use console colors, so we have to pick them by name.
     if($Light) {
-       $BackgroundColor = "White"
-       $ForegroundColor = "Black"
-       $PromptForegroundColor = "White"
+       $BackgroundColor = "Black"
+       $ForegroundColor = "Red"
+       $PromptForegroundColor = "Red"
        $Dark = "Dark"
     } else {
        $Dark = ""
