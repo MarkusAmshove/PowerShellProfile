@@ -99,6 +99,11 @@ function Set-HostColor {
     Set-PSReadlineOption -TokenKind None      -ForegroundColor $ForegroundColor -BackgroundColor $BackgroundColor
     Set-PSReadlineOption -TokenKind Comment   -ForegroundColor "DarkGray" -BackgroundColor $BackgroundColor
 
+    $PowerlineBackground = "Cyan"
+    if(Test-Elevation) {
+        $PowerlineBackground = "DarkRed"
+    }
+
     [PowerLine.Prompt]$global:PowerLinePrompt = 1,
         (
             $null, # No left-aligned content on this line
@@ -110,8 +115,8 @@ function Set-HostColor {
                 @{ bg = "Blue";     fg = "White"; text = { $MyInvocation.HistoryId } }
                 @{ bg = "Cyan";     fg = "White"; text = { [PowerLine.Prompt]::Gear * $NestedPromptLevel } }
                 @{ bg = "Cyan";     fg = "White"; text = { if($pushd = (Get-Location -Stack).count) { "" + ([char]187) + $pushd } } }
-                @{ bg = "DarkBlue"; fg = "White"; text = { $pwd.Drive.Name } }
-                @{ bg = "DarkBlue"; fg = "White"; text = { Split-Path $pwd -leaf } }
+                @{ bg = $PowerlineBackground; fg = "White"; text = { $pwd.Drive.Name } }
+                @{ bg = $PowerlineBackground; fg = "White"; text = { Split-Path $pwd -leaf } }
             )
 
     Set-PowerLinePrompt -CurrentDirectory -PowerlineFont:(!$SafeCharacters) -Title { "PowerShell - {0} ({1})" -f (Convert-Path $pwd),  $pwd.Provider.Name }
@@ -119,9 +124,10 @@ function Set-HostColor {
 
     if(Get-Module PSGit) {
         $PowerLinePrompt.Lines[-1].Columns[-1].Blocks.Add( @{ text = { Get-GitStatusPowerline } } )
+        $branchSymbol = [PowerLine.Prompt]::Branch
 
         Set-GitPromptSettings -SeparatorText '' -BeforeText '' -BeforeChangesText '' -AfterChangesText '' -AfterNoChangesText '' `
-                              -BranchText "§ " -BranchForeground White -BranchBackground DarkCyan `
+                              -BranchText "$branchSymbol " -BranchForeground White -BranchBackground DarkCyan `
                               -BehindByText '▼' -BehindByForeground White -BehindByBackground DarkCyan `
                               -AheadByText '▲' -AheadByForeground White -AheadByBackground DarkCyan `
                               -StagedChangesForeground White -StagedChangesBackground DarkBlue `
