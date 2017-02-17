@@ -16,13 +16,13 @@ Import-Module Microsoft.PowerShell.Management,
               ZLocation,
               Environment,
               Configuration,
-              PSGit,
+              posh-git,
               PowerLine,
               Profile,
               DefaultParameter -Verbose:$false
 
 # Load scripts from Scriptdir
-@('GitCompletion.ps1') | % { . $_ }
+@() | % { . $_ }
 
 # For now, CORE edition is always verbose, because I can't test for KeyState
 if("Core" -eq $PSVersionTable.PSEdition) {
@@ -66,6 +66,15 @@ Remove-Variable TraceVerboseTimer
 # Custom Aliases
 Set-Alias l ls
 Set-Alias which Get-Command
+
+function rmrf($path) {
+  rm -Recurse -Force $path
+}
+
+function mkcd($path) {
+  mkdir $path
+  cd $path
+}
 
 ## Relax the code signing restriction so we can actually get work done
 try { Set-ExecutionPolicy RemoteSigned Process } catch [PlatformNotSupportedException] {}
