@@ -106,7 +106,7 @@ function Set-HostColor {
 
     [PowerLine.Prompt]$global:PowerLinePrompt = 1,
         (
-            $null, # No left-aligned content on this line
+            @(), # No left-aligned content on this line
             @(
                 @{ text = { New-PowerLineBlock (Get-Elapsed) -ErrorBackgroundColor DarkRed -ErrorForegroundColor White -ForegroundColor Black -BackgroundColor DarkGray } }
                 @{ bg = "Gray";     fg = "Black"; text = { Get-Date -f "T" } }
@@ -118,6 +118,7 @@ function Set-HostColor {
                 @{ bg = $PowerlineBackground; fg = "White"; text = { $pwd.Drive.Name } }
                 @{ bg = $PowerlineBackground; fg = "White"; text = { Split-Path $pwd -leaf } }
             )
+
 
     Set-PowerLinePrompt -CurrentDirectory -PowerlineFont:(!$SafeCharacters) -Title { "PowerShell - {0} ({1})" -f (Convert-Path $pwd),  $pwd.Provider.Name }
 
@@ -133,6 +134,47 @@ function Set-HostColor {
                               -StagedChangesForeground White -StagedChangesBackground DarkBlue `
                               -UnStagedChangesForeground White -UnStagedChangesBackground Blue
     }
+
+    if(Get-Module posh-git) {
+        $PowerLinePrompt.Lines[-1].Columns[-1].Blocks.Add( @{ text = { Get-PoshGitPowerlineStatus }; bg = "Blue" } )
+    }
+}
+
+function Get-PoshGitPowerlineStatus {
+    $status = Get-GitStatus
+    if(!$status) { return }
+    $branchSymbol = [PowerLine.Prompt]::Branch
+    $branch = $status.Branch
+    $statusLine = "$branchSymbol $branch"
+
+    if($status.AheadBy -eq 0 -and $status.BehindBy -eq 0) {
+        $statusLine += " " + $GitPromptSettings.BranchIdenticalStatusToSymbol
+    }
+    if($status.BehindBy -gt 0 -and $status.AheadBy -eq 0) {
+        $statusLine += " " + $GitPromptSettings.BranchBehindStatusSymbol + $status.BehindBy
+    }
+    if($status.AheadBy -gt 0 -and $status.BehindBy -eq 0) {
+        $statusLine += " " + $GitPromptSettings.BranchAheadStatusSymbol + $status.AheadBy
+    }
+    if($status.AheadBy -gt 0 -and $status.BehindBy -gt 0) {
+        $statusLine += " " + $status.AheadBy + $GitPromptSettings.BrandBehindAndAheadStatusSymbol + $status.BehindBy
+    }
+
+    if($status.HasWorking) {
+        $statusLine += " +" + $status.Working.Added.Count
+        $statusLine += " ~" + $status.Working.Modified.Count
+        $statusLine += " -" + $status.Working.Deleted.Count
+    }
+    if($status.HasIndex) {
+        if($status.HasWorking) {
+            $statusLine += " | "
+        }
+        $statusLine += " +" + $status.Index.Added.Count
+        $statusLine += " ~" + $status.Index.Modified.Count
+        $statusLine += " -" + $status.Index.Deleted.Count
+    }
+
+    return $statusLine
 }
 
 function Update-ToolPath {
