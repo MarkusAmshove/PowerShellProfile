@@ -18,6 +18,7 @@ Import-Module Microsoft.PowerShell.Management,
               Configuration,
               posh-git,
               PowerLine,
+              posh-docker,
               Profile,
               DefaultParameter -Verbose:$false
 

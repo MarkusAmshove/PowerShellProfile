@@ -56,6 +56,7 @@ RequiredModules = @(@{ModuleName="Environment"; ModuleVersion="0.0"},
                     @{ModuleName="posh-git"; ModuleVersion="0.7.0"},
                     @{ModuleName="DefaultParameter"; ModuleVersion="1.6"},
                     @{ModuleName="PowerLine"; ModuleVersion="2.0.0"},
+                    @{ModuleName="posh-docker"; ModuleVersion="0.7.1"},
                     @{ModuleName="ZLocation"; ModuleVersion="0.1.0"})
 
 # Assemblies that must be loaded prior to importing this module
