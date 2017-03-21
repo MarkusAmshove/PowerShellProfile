@@ -274,3 +274,4 @@ Set-Variable LiveID (
 Update-FormatData -PrependPath (Join-Path $PSScriptRoot 'Formats.ps1xml')
 
 Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir
+function spc { & "C:\Program Files\SpeedProject\SpeedCommander 16\SpeedCommander.exe" $pwd }
