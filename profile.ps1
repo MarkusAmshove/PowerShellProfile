@@ -77,6 +77,10 @@ function mkcd($path) {
   cd $path
 }
 
+function ltr() {
+    ls | Sort-Object { $_.LastWriteTime }
+}
+
 ## Relax the code signing restriction so we can actually get work done
 try { Set-ExecutionPolicy RemoteSigned Process } catch [PlatformNotSupportedException] {}
 
