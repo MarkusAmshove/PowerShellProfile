@@ -17,7 +17,6 @@ Import-Module Microsoft.PowerShell.Management,
               Environment,
               Configuration,
               posh-git,
-              PowerLine,
               posh-docker,
               Profile,
               DefaultParameter -Verbose:$false
@@ -85,3 +84,34 @@ function ltr() {
 try { Set-ExecutionPolicy RemoteSigned Process } catch [PlatformNotSupportedException] {}
 
 $VerbosePreference = "SilentlyContinue"
+
+function Test-IsAdmin
+{
+    $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object Security.Principal.WindowsPrincipal $identity
+    return $principal.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+}
+
+function prompt {
+    $time = (Get-Date).ToString("hh:mm:ss")
+    $username = (gc env:\USERNAME).ToLower()
+    $computername = (gc env:\COMPUTERNAME).ToLower()
+    $currentPath = (pwd).Path.Replace((gc env:\USERPROFILE), '~')
+
+    $userForeground = 'Yellow'
+    if(Test-IsAdmin) {
+        $userForeground = 'DarkRed'
+    }
+
+    Write-Host -NoNewline "$time "
+    Write-Host -NoNewline $username -ForegroundColor $userForeground
+    Write-Host -NoNewline '@'
+    Write-Host -NoNewline $computername
+    Write-Host -NoNewline ':'
+    Write-Host -NoNewline '[' -ForegroundColor Cyan
+    Write-Host -NoNewline $currentPath -ForegroundColor Cyan
+    Write-Host -NoNewline ']' -ForegroundColor Cyan
+    Write-VcsStatus
+    Write-Host -NoNewline ' $'
+    return ' '
+}

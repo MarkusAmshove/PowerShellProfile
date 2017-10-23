@@ -41,49 +41,7 @@ function Set-HostColor {
         [switch]$Force
     )
 
-    ## In the PowerShell Console, we can only use console colors, so we have to pick them by name.
-    if($Light) {
-       $BackgroundColor = "Black"
-       $ForegroundColor = "Red"
-       $PromptForegroundColor = "Red"
-       $Dark = "Dark"
-    } else {
-       $Dark = ""
-       $BackgroundColor = "Black"
-       $ForegroundColor = "White"
-       $PromptForegroundColor = "White"
-    }
-
-    $Host.UI.RawUI.BackgroundColor = $BackgroundColor
-    $Host.UI.RawUI.ForegroundColor = $ForegroundColor
-
-    $Host.PrivateData.ErrorForegroundColor    = "DarkRed"
-    $Host.PrivateData.ErrorBackgroundColor    = $BackgroundColor
-    $Host.PrivateData.WarningForegroundColor  = "${Dark}Yellow"
-    $Host.PrivateData.WarningBackgroundColor  = $BackgroundColor
-    $Host.PrivateData.DebugForegroundColor    = "Green"
-    $Host.PrivateData.DebugBackgroundColor    = $BackgroundColor
-    $Host.PrivateData.VerboseForegroundColor  = "${Dark}Cyan"
-    $Host.PrivateData.VerboseBackgroundColor  = $BackgroundColor
-    $Host.PrivateData.ProgressForegroundColor = "DarkMagenta"
-    $Host.PrivateData.ProgressBackgroundColor = "Gray"
-
-    if($Host.Name -ne "ConsoleHost") {
-       Write-Warning "This script assumes ConsoleHost and PSReadLine."
-       if($Host.Name -eq "Windows PowerShell ISE Host") {
-            $Host.PrivateData.ErrorForegroundColor    = "DarkRed"
-            $Host.PrivateData.WarningForegroundColor  = "Gold"
-            $Host.PrivateData.DebugForegroundColor    = "Green"
-            $Host.PrivateData.VerboseForegroundColor  = "Cyan"
-            if($PSProcessElevated) {
-                $Host.UI.RawUI.BackgroundColor = "DarkGray"
-            }
-        }
-
-       if(!$Force) { return }
-    }
-
-    Set-PSReadlineOption -ContinuationPromptForegroundColor DarkGray -ContinuationPromptBackgroundColor $BackgroundColor -ContinuationPrompt "``  "
+    Set-PSReadlineOption -ContinuationPromptForegroundColor DarkGray -ContinuationPrompt "``  "
     Set-PSReadlineOption -EmphasisForegroundColor White -EmphasisBackgroundColor Gray
 
     Set-PSReadlineOption -TokenKind Keyword   -ForegroundColor "${Dark}Yellow" -BackgroundColor $BackgroundColor
@@ -98,46 +56,6 @@ function Set-HostColor {
     Set-PSReadlineOption -TokenKind Member    -ForegroundColor "Cyan" -BackgroundColor $BackgroundColor
     Set-PSReadlineOption -TokenKind None      -ForegroundColor $ForegroundColor -BackgroundColor $BackgroundColor
     Set-PSReadlineOption -TokenKind Comment   -ForegroundColor "DarkGray" -BackgroundColor $BackgroundColor
-
-    $PowerlineBackground = "DarkBlue"
-    if(Test-Elevation) {
-        $PowerlineBackground = "DarkRed"
-    }
-
-    [PowerLine.Prompt]$global:PowerLinePrompt = 1,
-        (
-            @(), # No left-aligned content on this line
-            @(
-                @{ text = { New-PowerLineBlock (Get-Elapsed) -ErrorBackgroundColor DarkRed -ErrorForegroundColor White -ForegroundColor Black -BackgroundColor DarkGray } }
-                @{ bg = "Gray";     fg = "Black"; text = { Get-Date -f "T" } }
-            )
-        ),  @(
-                @{ bg = "Blue";     fg = "White"; text = { $MyInvocation.HistoryId } }
-                @{ bg = "Cyan";     fg = "White"; text = { [PowerLine.Prompt]::Gear * $NestedPromptLevel } }
-                @{ bg = "Cyan";     fg = "White"; text = { if($pushd = (Get-Location -Stack).count) { "" + ([char]187) + $pushd } } }
-                @{ bg = $PowerlineBackground; fg = "White"; text = { $pwd.Drive.Name } }
-                @{ bg = $PowerlineBackground; fg = "White"; text = { Split-Path $pwd -leaf } }
-            )
-
-
-    Set-PowerLinePrompt -CurrentDirectory -PowerlineFont:(!$SafeCharacters) -Title { "PowerShell - {0} ({1})" -f (Convert-Path $pwd),  $pwd.Provider.Name }
-
-
-    if(Get-Module PSGit) {
-        $PowerLinePrompt.Lines[-1].Columns[-1].Blocks.Add( @{ text = { Get-GitStatusPowerline } } )
-        $branchSymbol = [PowerLine.Prompt]::Branch
-
-        Set-GitPromptSettings -SeparatorText '' -BeforeText '' -BeforeChangesText '' -AfterChangesText '' -AfterNoChangesText '' `
-                              -BranchText "$branchSymbol " -BranchForeground White -BranchBackground DarkCyan `
-                              -BehindByText '▼' -BehindByForeground White -BehindByBackground DarkCyan `
-                              -AheadByText '▲' -AheadByForeground White -AheadByBackground DarkCyan `
-                              -StagedChangesForeground White -StagedChangesBackground DarkBlue `
-                              -UnStagedChangesForeground White -UnStagedChangesBackground Blue
-    }
-
-    if(Get-Module posh-git) {
-        $PowerLinePrompt.Lines[-1].Columns[-1].Blocks.Add( @{ text = { Get-PoshGitPowerlineStatus }; bg = "Blue" } )
-    }
 }
 
 function Get-PoshGitPowerlineStatus {
@@ -256,7 +174,6 @@ Trace-Message "Random Quotes Loaded"
 
 # Run these functions once
 Update-ToolPath
-Set-HostColor
 
 ## Get a random quote, and print it in yellow :D
 if( Test-Path "${QuoteDir}\attributed quotes.txt" ) {
