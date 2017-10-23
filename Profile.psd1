@@ -12,7 +12,7 @@
 RootModule = 'Profile.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.1.0'
+ModuleVersion = '1.2.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -53,9 +53,9 @@ Copyright = '(c) 2016 Joel. All rights reserved.'
 # Modules that must be imported into the global environment prior to importing this module
 RequiredModules = @(@{ModuleName="Environment"; ModuleVersion="0.0"},
                     @{ModuleName="Configuration"; ModuleVersion="1.0.2"},
-                    @{ModuleName="posh-git"; ModuleVersion="0.7.0"},
+                    @{ModuleName="posh-git"; ModuleVersion="0.7.1"},
                     @{ModuleName="DefaultParameter"; ModuleVersion="1.6"},
-                    @{ModuleName="PowerLine"; ModuleVersion="2.0.0"},
+                    @{ModuleName="PowerLine"; ModuleVersion="3.0.0"},
                     @{ModuleName="posh-docker"; ModuleVersion="0.7.1"},
                     @{ModuleName="ZLocation"; ModuleVersion="0.1.0"})
 
