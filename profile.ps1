@@ -66,8 +66,8 @@ Trace-Message "Profile Finished!" -KillTimer
 Remove-Variable TraceVerboseTimer
 
 # Custom Aliases
-Set-Alias ls Get-ChildItemColor
-Set-Alias l ls
+Set-Alias ls Get-ChildItemColor -Option AllScope
+Set-Alias l ls -Option AllScope
 Set-Alias which Get-Command
 Set-Alias grep Find-Matches
 
