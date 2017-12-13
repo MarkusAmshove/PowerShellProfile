@@ -56,7 +56,8 @@ RequiredModules = @(@{ModuleName="Environment"; ModuleVersion="0.0"},
                     @{ModuleName="posh-git"; ModuleVersion="0.7.1"},
                     @{ModuleName="DefaultParameter"; ModuleVersion="1.6"},
                     @{ModuleName="posh-docker"; ModuleVersion="0.7.1"},
-                    @{ModuleName="ZLocation"; ModuleVersion="0.1.0"})
+                    @{ModuleName="ZLocation"; ModuleVersion="0.1.0"},
+                    @{ModuleName="PoshGrep"; ModuleVersion="1.0.0.0"})
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()

@@ -66,6 +66,7 @@ Remove-Variable TraceVerboseTimer
 # Custom Aliases
 Set-Alias l ls
 Set-Alias which Get-Command
+Set-Alias grep Find-Matches
 
 function rmrf($path) {
   rm -Recurse -Force $path
