@@ -57,7 +57,8 @@ RequiredModules = @(@{ModuleName="Environment"; ModuleVersion="0.0"},
                     @{ModuleName="DefaultParameter"; ModuleVersion="1.6"},
                     @{ModuleName="posh-docker"; ModuleVersion="0.7.1"},
                     @{ModuleName="ZLocation"; ModuleVersion="0.1.0"},
-                    @{ModuleName="PoshGrep"; ModuleVersion="1.0.0.0"})
+                    @{ModuleName="PoshGrep"; ModuleVersion="1.0.0.0"},
+                    @{ModuleName="Get-ChildItemColor"; ModuleVersion="1.2.1"})
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()

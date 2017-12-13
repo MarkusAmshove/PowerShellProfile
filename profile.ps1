@@ -19,6 +19,8 @@ Import-Module Microsoft.PowerShell.Management,
               posh-git,
               posh-docker,
               Profile,
+              PoshGrep,
+              Get-ChildItemColor,
               DefaultParameter -Verbose:$false
 
 # Load scripts from Scriptdir
@@ -64,6 +66,7 @@ Trace-Message "Profile Finished!" -KillTimer
 Remove-Variable TraceVerboseTimer
 
 # Custom Aliases
+Set-Alias ls Get-ChildItemColor
 Set-Alias l ls
 Set-Alias which Get-Command
 Set-Alias grep Find-Matches
