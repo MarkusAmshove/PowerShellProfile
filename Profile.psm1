@@ -195,5 +195,10 @@ Set-Variable LiveID (
 # Unfortunately, in order for our File Format colors and History timing to take prescedence, we need to PREPEND the path:
 Update-FormatData -PrependPath (Join-Path $PSScriptRoot 'Formats.ps1xml')
 
-Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir
 function spc { & "C:\Program Files\SpeedProject\SpeedCommander 16\SpeedCommander.exe" $pwd }
+if(Get-Command fzf) {
+	function gfzf { fzf | %{ gvim $_ } }
+	function vfzf { fzf | %{ vim $_ } }
+}
+
+Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir             
