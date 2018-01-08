@@ -200,6 +200,5 @@ if(Get-Command fzf) {
 	function gfzf { fzf | %{ gvim $_ } }
 	function vfzf { fzf | %{ vim $_ } }
 }
-function magit { vim -c MagitOnly }
 
 Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir             
