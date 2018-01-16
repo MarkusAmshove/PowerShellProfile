@@ -21,9 +21,8 @@ elseif(Get-Module PSReadline) {
     Set-PSReadlineKeyHandler Ctrl+K KillLine
     Set-PSReadlineKeyHandler Ctrl+I Yank
     Set-PSReadlineKeyHandler Ctrl+W BackwardKillWord
-    Set-PSReadlineKeyHandler -Key CTRL+a -Function SelectAll
+    Set-PSReadlineKeyHandler -Key CTRL+a -Function BeginningOfLine
     Set-PSReadlineKeyHandler -Key CTRL+v -Function Paste
-    Set-PSReadlineKeyHandler -Key CTRL+^ -Function BeginningOfLine
 
     Set-PSReadlineOption -HistorySaveStyle SaveAtExit
     Trace-Message "PSReadLine fixed"
