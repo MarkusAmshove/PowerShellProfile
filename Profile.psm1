@@ -200,4 +200,13 @@ if(Get-Command fzf) {
 	function vfzf { fzf | %{ vim $_ } }
 }
 
+if(Get-Command dotnet) {
+    Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
+        param($commandName, $wordToComplete, $cursorPosition)
+            dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+               [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+    }
+}
+}
+
 Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir             
