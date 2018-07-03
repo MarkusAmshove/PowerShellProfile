@@ -17,7 +17,6 @@ Import-Module Microsoft.PowerShell.Management,
               Environment,
               Configuration,
               posh-git,
-              posh-docker,
               Profile,
               PoshGrep,
               Get-ChildItemColor,
@@ -94,6 +93,10 @@ function Test-IsAdmin
     $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = New-Object Security.Principal.WindowsPrincipal $identity
     return $principal.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+}
+
+function gstatus() { 
+        gvim +Gstatus "+call ToggleFullscreenGui()" .\gitignore 
 }
 
 function prompt {
