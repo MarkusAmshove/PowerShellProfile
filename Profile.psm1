@@ -1,10 +1,8 @@
-
-## There were some problems with hosts using PSReadLine who shouldn't
 if($Host.Name -ne "ConsoleHost") {
     Remove-Module PSReadLine -ErrorAction SilentlyContinue
     Trace-Message "PSReadLine skipped!"
 }
-# Only configure PSReadLine if it's already running
+
 elseif(Get-Module PSReadline) {
     Set-PSReadlineOption -EditMode Emacs
 
@@ -21,8 +19,9 @@ elseif(Get-Module PSReadline) {
     Set-PSReadlineKeyHandler Ctrl+K KillLine
     Set-PSReadlineKeyHandler Ctrl+I Yank
     Set-PSReadlineKeyHandler Ctrl+W BackwardKillWord
-    Set-PSReadlineKeyHandler -Key CTRL+a -Function BeginningOfLine
+    Set-PSReadlineKeyHandler -Key CTRL+a -Function SelectAll
     Set-PSReadlineKeyHandler -Key CTRL+v -Function Paste
+    Set-PSReadlineKeyHandler -Key CTRL+^ -Function BeginningOfLine
 
     Set-PSReadlineOption -HistorySaveStyle SaveAtExit
     Trace-Message "PSReadLine fixed"
@@ -118,9 +117,7 @@ function Update-ToolPath {
     }
 
     ## MSBuild is now in 'C:\Program Files (x86)\MSBuild\{version}'
-    $folders += Set-AliasToFirst -Alias "msbuild" -Path 'C:\Program Files (x86)\MSBuild\*\Bin\MsBuild.exe' -Description "Visual Studio's MsBuild" -Force -Passthru
-    $folders += Set-AliasToFirst -Alias "merge" -Path "C:\Program*Files*\Perforce\p4merge.exe","C:\Program*Files*\DevTools\Perforce\p4merge.exe" -Description "Perforce" -Force -Passthru
-    Set-AliasToFirst -Alias "iis","iisexpress" -Path 'C:\Progra*\IIS*\IISExpress.exe' -Description "Personal Profile Alias"
+    $folders += Set-AliasToFirst -Alias "msbuild" -Path 'C:\Program*Files*\*Visual?Studio*\*\*\MsBuild\*\Bin\MsBuild.exe', 'C:\Program*Files*\MSBuild\*\Bin\MsBuild.exe' -Description "Visual Studio's MsBuild" -Force -Passthru
     Trace-Message "Development aliases set"
 
     $ENV:PATH = Select-UniquePath $folders ${Env:Path}
@@ -199,14 +196,6 @@ if(Get-Command fzf) {
 	function gfzf { fzf | %{ gvim $_ } }
 	function vfzf { fzf | %{ vim $_ } }
 }
-
-if(Get-Command dotnet) {
-    Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
-        param($commandName, $wordToComplete, $cursorPosition)
-            dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
-               [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-    }
-}
-}
+function magit { vim -c MagitOnly }
 
 Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir             
