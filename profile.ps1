@@ -8,12 +8,12 @@ Set-Variable ProfileDir (Split-Path $MyInvocation.MyCommand.Path -Parent) -Scope
 
 # Ensure that PSHome\Modules is there so we can load the default modules
 $Env:PSModulePath += ";$PSHome\Modules"
+$Env:PSModulePath += ";$ProfileDir\Modules"
 
 # These will get loaded automatically, but it's faster to load them explicitly all at once
 Import-Module Microsoft.PowerShell.Management,
               Microsoft.PowerShell.Security,
               Microsoft.PowerShell.Utility,
-              ZLocation,
               Environment,
               Configuration,
               posh-git,
@@ -95,8 +95,8 @@ function Test-IsAdmin
     return $principal.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
 
-function gstatus() { 
-        gvim +Gstatus "+call ToggleFullscreenGui()" .\gitignore 
+function gstatus() {
+        gvim +Gstatus "+call ToggleFullscreenGui()" .\gitignore
 }
 
 function prompt {
@@ -121,4 +121,12 @@ function prompt {
     Write-VcsStatus
     Write-Host -NoNewline ' $'
     return ' '
+}
+
+# PowerShell parameter completion shim for the dotnet CLI
+Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
+    param($commandName, $wordToComplete, $cursorPosition)
+        dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+           [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+        }
 }
