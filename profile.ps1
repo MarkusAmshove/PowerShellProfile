@@ -100,7 +100,7 @@ function gstatus() {
 }
 
 function prompt {
-    $time = (Get-Date).ToString("hh:mm:ss")
+    $time = (Get-Date).ToString("HH:mm:ss")
     $username = (gc env:\USERNAME).ToLower()
     $computername = (gc env:\COMPUTERNAME).ToLower()
     $currentPath = (pwd).Path.Replace((gc env:\USERPROFILE), '~')
