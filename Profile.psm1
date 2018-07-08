@@ -198,4 +198,4 @@ if(Get-Command fzf) {
 }
 function magit { vim -c MagitOnly }
 
-Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir             
+Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir
