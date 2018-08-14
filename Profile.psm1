@@ -197,5 +197,6 @@ if(Get-Command fzf) {
 	function vfzf { fzf | %{ vim $_ } }
 }
 function magit { vim -c MagitOnly }
+Set-Alias gradlew .\gradlew
 
 Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir
