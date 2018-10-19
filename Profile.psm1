@@ -195,6 +195,26 @@ function spc { & "C:\Program Files\SpeedProject\SpeedCommander 16\SpeedCommander
 if(Get-Command fzf) {
 	function gfzf { fzf | %{ gvim $_ } }
 	function vfzf { fzf | %{ vim $_ } }
+	function fbr() {
+    		$branches = git branch -vv
+    		$branch = ($branches | fzf +m)
+    		$selected = $branch.Replace("*", "").Trim().Split(" ")[0]
+    		git checkout $selected
+	}
+
+	function fshow() {
+    		$commit = git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" |
+				fzf --ansi --no-sort --reverse --tiebreak=index 
+		$selected = $commit.Replace("*", "").Replace("|", "").Replace("\", "").Replace("/", "").Trim().Split(" ")[0]
+		git show $selected
+	}
+
+	function ftk() {
+		$commit = git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" |
+				fzf --ansi --no-sort --reverse --tiebreak=index 
+		$commit -match "Ticket #(\d+):" | Out-Null
+		$Matches[1] | clip
+	}
 }
 function magit { vim -c MagitOnly }
 Set-Alias gradlew .\gradlew
