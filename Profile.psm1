@@ -203,14 +203,14 @@ if(Get-Command fzf) {
 	}
 
 	function fshow() {
-    		$commit = git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" |
+    		$commit = git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr <%an>" |
 				fzf --ansi --no-sort --reverse --tiebreak=index 
 		$selected = $commit.Replace("*", "").Replace("|", "").Replace("\", "").Replace("/", "").Trim().Split(" ")[0]
 		git show $selected
 	}
 
 	function ftk() {
-		$commit = git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" |
+		$commit = git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr <%an>" |
 				fzf --ansi --no-sort --reverse --tiebreak=index 
 		$commit -match "Ticket #(\d+):" | Out-Null
 		$Matches[1] | clip
