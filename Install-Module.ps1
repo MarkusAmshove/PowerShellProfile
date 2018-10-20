@@ -37,10 +37,13 @@ try {
     }
 
     $Gallery = Get-PSRepository PSGallery
-    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted -SourceLocation https://www.powershellgallery.com/api/v2/
+    try {
+        Set-PSRepository -Name PSGallery -InstallationPolicy Trusted -SourceLocation https://www.powershellgallery.com/api/v2/
+    } catch { }
     Install-Module -AllowClobber -Scope:$Scope -Name @((Get-Module Profile -ListAvailable).RequiredModules)
-    Set-PSRepository -Name PSGallery -InstallationPolicy $Gallery.InstallationPolicy
-
+    try {
+        Set-PSRepository -Name PSGallery -InstallationPolicy $Gallery.InstallationPolicy
+    } catch { }
     if(!(Test-Path ~\Documents\WindowsPowerShell\Scripts)) {
         mkdir ~\Documents\WindowsPowerShell\Scripts
     }
