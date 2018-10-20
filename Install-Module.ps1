@@ -13,7 +13,7 @@ if($edition -match "Core") {
 }
 
 Write-Host "Installing into $profilePath"
-
+mkdir "$profilePath" -Force
 mkdir "$profilePath\Modules" -force | convert-path | Push-location
 
 try {
