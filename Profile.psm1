@@ -215,6 +215,16 @@ if(Get-Command fzf) {
 		$commit -match "Ticket #(\d+):" | Out-Null
 		$Matches[1] | clip
 	}
+
+	function fco() {
+    		$commit = git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold) <%an> %cr" |
+				fzf --ansi --no-sort --reverse --tiebreak=index 
+		if(![System.String]::IsNullOrEmpty($commit)) {
+			$selected = $commit.Replace("*", "").Replace("|", "").Replace("\", "").Replace("/", "").Trim().Split(" ")[0]
+			git checkout $selected
+		}
+	}
+
 }
 function magit { vim -c MagitOnly }
 Set-Alias gradlew .\gradlew
