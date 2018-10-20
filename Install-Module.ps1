@@ -5,11 +5,14 @@ param(
     $Scope = "CurrentUser"
 )
 
-if($PSVersionTable.PSEdition -eq "Core") {
+$edition = $PSVersionTable.PSEdition
+if($edition -match "Core") {
     $profilePath = ~\Documents\PowerShell
 } else {
     $profilePath = ~\Documents\WindowsPowerShell
 }
+
+Write-Host "Installing into $profilePath"
 
 mkdir "$profilePath\Modules" -force | convert-path | Push-location
 
