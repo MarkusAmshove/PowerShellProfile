@@ -7,7 +7,7 @@ param(
 
 $edition = $PSVersionTable.PSEdition
 if($edition -match "Core") {
-    $profilePath = ~\Documents\PowerShell
+    $profilePath = "~\Documents\PowerShell"
 } else {
     $profilePath = ~\Documents\WindowsPowerShell
 }
