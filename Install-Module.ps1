@@ -45,12 +45,7 @@ try {
         Write-Warning "Profile.ps1 already exists. Leaving new profile in $profilePath\Profile"
     }
 
-    if($PSVersionTable.PSEdition -ne "Core") {
-        $Gallery = Get-PSRepository PSGallery
-        Set-PSRepository -Name PSGallery -InstallationPolicy Trusted -SourceLocation https://www.powershellgallery.com/api/v2/
-        Install-Module -AllowClobber -Scope:$Scope -Name @((Get-Module Profile -ListAvailable).RequiredModules)
-        Set-PSRepository -Name PSGallery -InstallationPolicy $Gallery.InstallationPolicy
-    }
+    Install-Module -AllowClobber -Scope:$Scope -Name @((Get-Module Profile -ListAvailable).RequiredModules)
     if(!(Test-Path "$profilePath\Scripts")) {
         mkdir "$profilePath\Scripts"
     }
