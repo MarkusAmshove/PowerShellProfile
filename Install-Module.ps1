@@ -9,7 +9,7 @@ $edition = $PSVersionTable.PSEdition
 if($edition -match "Core") {
     $profilePath = "~\Documents\PowerShell"
 } else {
-    $profilePath = ~\Documents\WindowsPowerShell
+    $profilePath = "~\Documents\WindowsPowerShell"
 }
 
 Write-Host "Installing into $profilePath"
