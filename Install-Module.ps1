@@ -5,7 +5,13 @@ param(
     $Scope = "CurrentUser"
 )
 
-mkdir ~\Documents\WindowsPowerShell\Modules -force | convert-path | Push-location
+if($PSVersionTable.PSEdition -eq "Core") {
+    $profilePath = ~\Documents\PowerShell
+} else {
+    $profilePath = ~\Documents\WindowsPowerShell
+}
+
+mkdir "$profilePath\Modules" -force | convert-path | Push-location
 
 try {
     $ErrorActionPreference = "Stop"
@@ -31,9 +37,9 @@ try {
     Rename-Item Profile-master Profile
     Remove-Item Profile-master.zip
 
-    Move-Item Profile\profile.ps1 ~\Documents\WindowsPowerShell\ -Force:$Force -ErrorAction SilentlyContinue -ErrorVariable MoveFailed
+    Move-Item Profile\profile.ps1 $profilePath -Force:$Force -ErrorAction SilentlyContinue -ErrorVariable MoveFailed
     if($MoveFailed) {
-        Write-Warning "Profile.ps1 already exists. Leaving new profile in ~\Documents\WindowsPowerShell\Profile"
+        Write-Warning "Profile.ps1 already exists. Leaving new profile in $profilePath\Profile"
     }
 
     if($PSVersionTable.PSEdition -ne "Core") {
@@ -42,8 +48,8 @@ try {
         Install-Module -AllowClobber -Scope:$Scope -Name @((Get-Module Profile -ListAvailable).RequiredModules)
         Set-PSRepository -Name PSGallery -InstallationPolicy $Gallery.InstallationPolicy
     }
-    if(!(Test-Path ~\Documents\WindowsPowerShell\Scripts)) {
-        mkdir ~\Documents\WindowsPowerShell\Scripts
+    if(!(Test-Path "$profilePath\Scripts")) {
+        mkdir "$profilePath\Scripts"
     }
 } finally {
     Pop-Location
