@@ -36,14 +36,12 @@ try {
         Write-Warning "Profile.ps1 already exists. Leaving new profile in ~\Documents\WindowsPowerShell\Profile"
     }
 
-    $Gallery = Get-PSRepository PSGallery
-    try {
+    if($PSVersionTable.PSEdition -ne "Core") {
+        $Gallery = Get-PSRepository PSGallery
         Set-PSRepository -Name PSGallery -InstallationPolicy Trusted -SourceLocation https://www.powershellgallery.com/api/v2/
-    } catch { }
-    Install-Module -AllowClobber -Scope:$Scope -Name @((Get-Module Profile -ListAvailable).RequiredModules)
-    try {
+        Install-Module -AllowClobber -Scope:$Scope -Name @((Get-Module Profile -ListAvailable).RequiredModules)
         Set-PSRepository -Name PSGallery -InstallationPolicy $Gallery.InstallationPolicy
-    } catch { }
+    }
     if(!(Test-Path ~\Documents\WindowsPowerShell\Scripts)) {
         mkdir ~\Documents\WindowsPowerShell\Scripts
     }
