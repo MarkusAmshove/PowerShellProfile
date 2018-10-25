@@ -228,5 +228,5 @@ if(Get-Command fzf) {
 }
 function magit { vim -c MagitOnly }
 Set-Alias gradlew .\gradlew
-
+Set-Alias rgg "& rg --files -g"
 Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir
