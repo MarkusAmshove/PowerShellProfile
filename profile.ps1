@@ -99,7 +99,10 @@ function gstatus() {
         gvim +Gstatus "+call ToggleFullscreenGui()" .\gitignore
 }
 
+$defaultForeground = $Host.UI.RawUI.ForegroundColor
+
 function prompt {
+    $Host.UI.RawUI.ForegroundColor = $defaultForeground
     $time = (Get-Date).ToString("HH:mm:ss")
     $username = (gc env:\USERNAME).ToLower()
     $computername = (gc env:\COMPUTERNAME).ToLower()
