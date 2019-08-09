@@ -22,6 +22,9 @@ elseif(Get-Module PSReadline) {
     Set-PSReadlineKeyHandler -Key CTRL+a -Function SelectAll
     Set-PSReadlineKeyHandler -Key CTRL+v -Function Paste
     Set-PSReadlineKeyHandler -Key CTRL+^ -Function BeginningOfLine
+    
+    Set-PSReadLineKeyHandler -Key PageDown -Function HistorySearchForward
+    Set-PSReadLineKeyHandler -Key PageUp -Function HistorySearchBackward 
 
     Set-PSReadlineOption -HistorySaveStyle SaveAtExit
     Trace-Message "PSReadLine fixed"
