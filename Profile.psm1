@@ -22,9 +22,6 @@ elseif(Get-Module PSReadline) {
     Set-PSReadlineKeyHandler -Key CTRL+a -Function SelectAll
     Set-PSReadlineKeyHandler -Key CTRL+v -Function Paste
     Set-PSReadlineKeyHandler -Key CTRL+^ -Function BeginningOfLine
-    
-    Set-PSReadLineKeyHandler -Key PageDown -Function HistorySearchForward
-    Set-PSReadLineKeyHandler -Key PageUp -Function HistorySearchBackward 
 
     Set-PSReadlineOption -HistorySaveStyle SaveAtExit
     Trace-Message "PSReadLine fixed"
@@ -131,30 +128,6 @@ if(!$ProfileDir -or !(Test-Path $ProfileDir)) {
     $ProfileDir = Split-Path $Profile.CurrentUserAllHosts
 }
 
-$QuoteDir = Join-Path (Split-Path $ProfileDir -parent) "Quotes"
-if(!(Test-Path $QuoteDir)) {
-    $QuoteDir = Join-Path $PSScriptRoot Quotes
-}
-
-# Only export $QuoteDir if it refers to a folder that actually exists
-Set-Variable QuoteDir (Resolve-Path $QuoteDir) -Description "Personal Quotes Path Source"
-
-Set-Alias gq Get-Quote
-function Get-Quote {
-    param(
-        [Parameter(ValueFromRemainingArguments=$true)]
-        [string]$Path = "${QuoteDir}\attributed quotes.txt",
-        [int]$Count=1
-    )
-    if(!(Test-Path $Path) ) {
-        $Path = Join-Path ${QuoteDir} $Path
-        if(!(Test-Path $Path) ) {
-            $Path = $Path + ".txt"
-        }
-    }
-    Get-Content $Path | Where { $_ } | Get-Random -Count $Count
-}
-
 ## The qq shortcut for quick quotes
 Set-Alias qq ConvertTo-StringArray
 function ConvertTo-StringArray {
@@ -178,18 +151,6 @@ Trace-Message "Random Quotes Loaded"
 
 # Run these functions once
 Update-ToolPath
-
-## Get a random quote, and print it in yellow :D
-if( Test-Path "${QuoteDir}\attributed quotes.txt" ) {
-    Get-Quote | Write-Host -Foreground Yellow
-}
-
-# If you log in with a Windows Identity, this will capture it
-Set-Variable LiveID (
-        [System.Security.Principal.WindowsIdentity]::GetCurrent().Groups |
-        Where Value -match "^S-1-11-96" |
-        ForEach Translate([System.Security.Principal.NTAccount]) |
-        ForEach Value) -Option Constant -ErrorAction SilentlyContinue
 
 # Unfortunately, in order for our File Format colors and History timing to take prescedence, we need to PREPEND the path:
 Update-FormatData -PrependPath (Join-Path $PSScriptRoot 'Formats.ps1xml')
@@ -232,4 +193,4 @@ if(Get-Command fzf) {
 function magit { vim -c MagitOnly }
 Set-Alias gradlew .\gradlew
 Set-Alias rgg "& rg --files -g"
-Export-ModuleMember -Function * -Alias * -Variable LiveID, QuoteDir
+Export-ModuleMember -Function * -Alias *

@@ -11,6 +11,8 @@ $Env:PSModulePath += ";$PSHome\Modules"
 $Env:PSModulePath += ";$ProfileDir\Modules"
 
 # These will get loaded automatically, but it's faster to load them explicitly all at once
+Remove-PSReadLineKeyHandler -Chord 'Alt+c'
+Import-Module PSFzf -ArgumentList $null, $null, $null, $null -WarningAction SilentlyContinue
 Import-Module Microsoft.PowerShell.Management,
               Microsoft.PowerShell.Security,
               Microsoft.PowerShell.Utility,
@@ -21,36 +23,18 @@ Import-Module Microsoft.PowerShell.Management,
               PoshGrep,
               Get-ChildItemColor,
               DefaultParameter -Verbose:$false
+#$VerbosePreference = "Continue"
 
-# Load scripts from Scriptdir
-@() | % { . $_ }
-
-# For now, CORE edition is always verbose, because I can't test for KeyState
-if("Core" -eq $PSVersionTable.PSEdition) {
-    $VerbosePreference = "Continue"
-} else {
-    # Check SHIFT state ASAP at startup so I can use that to control verbosity :)
-    Add-Type -Assembly PresentationCore, WindowsBase
-    try {
-        if([System.Windows.Input.Keyboard]::IsKeyDown([System.Windows.Input.Key]::LeftShift) -OR
-           [System.Windows.Input.Keyboard]::IsKeyDown([System.Windows.Input.Key]::RightShift)) {
-            $VerbosePreference = "Continue"
-        }
-    } catch {}
-}
-
-# First call to Trace-Message, pass in our TraceTimer that I created at the top to make sure we time EVERYTHING.
-# This has to happen after the verbose check, obviously
 Trace-Message "Modules Imported" -Stopwatch $TraceVerboseTimer
 
-# I prefer that my sessions start in my profile directory
 if($ProfileDir -ne (Get-Location)) { Set-Location $ProfileDir }
 
-## Add my Projects folder to the module path
+# Load Configurations from Scriptdir
+@('PSFzfConfig') | % { . "$ProfileDir\Scripts\$($_).ps1" }
+
 $Env:PSModulePath = Select-UniquePath "$ProfileDir\Modules" (Get-SpecialFolder *Modules -Value) ${Env:PSModulePath} "${Home}\Projects\Modules"
 Trace-Message "Env:PSModulePath Updated"
 
-## This function cannot be in a module (else it will import the module to a nested scope)
 function Reset-Module {
     <#
     .Synopsis
@@ -64,7 +48,6 @@ function Reset-Module {
 Trace-Message "Profile Finished!" -KillTimer
 Remove-Variable TraceVerboseTimer
 
-# Custom Aliases
 Set-Alias ls Get-ChildItemColor -Option AllScope
 Set-Alias l ls -Option AllScope
 Set-Alias which Get-Command
