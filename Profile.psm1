@@ -15,6 +15,8 @@ elseif(Get-Module PSReadline) {
 
     Set-PSReadlineKeyHandler Ctrl+M SetMark
     Set-PSReadlineKeyHandler Ctrl+Shift+M ExchangePointAndMark
+    Set-PSReadLineKeyHandler -Key PageDown -Function HistorySearchForward
+    Set-PSReadLineKeyHandler -Key PageUp -Function HistorySearchBackward
 
     Set-PSReadlineKeyHandler Ctrl+K KillLine
     Set-PSReadlineKeyHandler Ctrl+I Yank
