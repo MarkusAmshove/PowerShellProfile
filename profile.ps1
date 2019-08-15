@@ -25,6 +25,9 @@ Import-Module Microsoft.PowerShell.Management,
               DefaultParameter -Verbose:$false
 #$VerbosePreference = "Continue"
 
+
+$GitPromptSettings.EnableStashStatus = $true
+
 Trace-Message "Modules Imported" -Stopwatch $TraceVerboseTimer
 
 if($ProfileDir -ne (Get-Location)) { Set-Location $ProfileDir }
