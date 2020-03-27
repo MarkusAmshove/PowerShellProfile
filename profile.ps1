@@ -109,6 +109,11 @@ function prompt {
     Write-Host -NoNewline ']' -ForegroundColor Cyan
     Write-VcsStatus
     Write-Host -NoNewline ' $'
+
+    if(Get-Command Update-ZLocation -ErrorAction SilentlyContinue) {
+        Update-ZLocation $pwd
+    }
+
     return ' '
 }
 
