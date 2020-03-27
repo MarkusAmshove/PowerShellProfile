@@ -57,7 +57,8 @@ RequiredModules = @(@{ModuleName="Environment"; ModuleVersion="0.0"},
                     @{ModuleName="DefaultParameter"; ModuleVersion="1.6"},
                     @{ModuleName="PoshGrep"; ModuleVersion="1.0.1.0"},
                     @{ModuleName="Get-ChildItemColor"; ModuleVersion="1.2.1"},
-                    @{ModuleName="PSFzf"; ModuleVersion="1.1.14"})
+                    @{ModuleName="PSFzf"; ModuleVersion="1.1.14"},
+                    @{ModuleName="ZLocation"; ModuleVersion="1.4.2"})
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
