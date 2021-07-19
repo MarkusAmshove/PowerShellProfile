@@ -95,7 +95,7 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
         }
 }
 
-$env:EDITOR = 'gvim'
+$env:EDITOR = 'nvim'
 $env:LESS = '-iFR'
 $env:LESSCHARSET = 'UTF-8'
 $env:LC_ALL = 'C.UTF-8'
