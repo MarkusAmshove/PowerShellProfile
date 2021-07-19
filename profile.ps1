@@ -87,36 +87,6 @@ function gstatus() {
 
 $defaultForeground = $Host.UI.RawUI.ForegroundColor
 
-function prompt {
-    $Host.UI.RawUI.ForegroundColor = $defaultForeground
-    $time = (Get-Date).ToString("HH:mm:ss")
-    $username = (gc env:\USERNAME).ToLower()
-    $computername = (gc env:\COMPUTERNAME).ToLower()
-    $currentPath = (pwd).Path.Replace((gc env:\USERPROFILE), '~')
-
-    $userForeground = 'Yellow'
-    if(Test-IsAdmin) {
-        $userForeground = 'DarkRed'
-    }
-
-    Write-Host -NoNewline "$time "
-    Write-Host -NoNewline $username -ForegroundColor $userForeground
-    Write-Host -NoNewline '@'
-    Write-Host -NoNewline $computername
-    Write-Host -NoNewline ':'
-    Write-Host -NoNewline '[' -ForegroundColor Cyan
-    Write-Host -NoNewline $currentPath -ForegroundColor Cyan
-    Write-Host -NoNewline ']' -ForegroundColor Cyan
-    Write-VcsStatus
-    Write-Host -NoNewline ' $'
-
-    if(Get-Command Update-ZLocation -ErrorAction SilentlyContinue) {
-        Update-ZLocation $pwd
-    }
-
-    return ' '
-}
-
 # PowerShell parameter completion shim for the dotnet CLI
 Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
     param($commandName, $wordToComplete, $cursorPosition)
@@ -132,3 +102,30 @@ $env:LC_ALL = 'C.UTF-8'
 
 function .. { cd .. }
 function ~ { cd ~ }
+
+function Prompt {
+    if ($?) {
+        Write-Host '➜' -NoNewline -ForegroundColor Green
+    }
+    else {
+        Write-Host '➜' -NoNewline -ForegroundColor Red
+    }
+
+    $currentPath = $(Split-Path -path $pwd  -Leaf)
+    if ($pwd.Path -eq (gc env:\USERPROFILE)) {
+        $currentPath = '~'
+    }
+
+    Write-Host " $currentPath" -NoNewline -ForegroundColor Cyan
+
+    $gitStatus = Get-GitStatus
+    if ($gitStatus) {
+        Write-VcsStatus
+    }
+
+    if(Get-Command Update-ZLocation -ErrorAction SilentlyContinue) {
+        Update-ZLocation $pwd
+    }
+
+    return " "
+}
