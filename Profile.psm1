@@ -159,8 +159,8 @@ Update-FormatData -PrependPath (Join-Path $PSScriptRoot 'Formats.ps1xml')
 
 function spc { & "C:\Program Files\SpeedProject\SpeedCommander 16\SpeedCommander.exe" $pwd }
 if(Get-Command fzf) {
-	function gfzf { fzf | %{ gvim $_ } }
-	function vfzf { fzf | %{ vim $_ } }
+	function gfzf { fzf | %{ nvim $_ } }
+	function vfzf { fzf | %{ nvim $_ } }
 	function fbr() {
     		$branches = git branch -vv
     		$branch = ($branches | fzf +m)
